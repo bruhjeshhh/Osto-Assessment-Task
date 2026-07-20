@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cli-login-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cliapp
+      POSTGRES_PASSWORD: cliapp
+      POSTGRES_DB: cliapp
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cliapp -d cliapp"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  cli-login:
+    build: .
+    image: cli-login-system:latest
+    container_name: cli-login-system
+    depends_on:
+      postgres:
+        condition: service_healthy
+    stdin_open: true   # keep STDIN open for the interactive prompt
+    tty: true           # allocate a pseudo-TTY for readline
+    volumes:
+      - login-data:/data   # persists CLI history across restarts
+    environment:
+      DATABASE_URL: "postgres://cliapp:cliapp@postgres:5432/cliapp?sslmode=disable"
+      # Override any of these to tune security behavior.
+      MAX_LOGIN_ATTEMPTS: 5
+      LOCKOUT_MINUTES: 15
+      SESSION_TIMEOUT_MINUTES: 15
+      BCRYPT_COST: 12
+      TOTP_ISSUER: "CLI Login System"
+
+volumes:
+  postgres-data:
+  login-data:
