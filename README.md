@@ -158,13 +158,4 @@ the full TOTP enable → confirm → require-on-login → disable flow, and
 session creation/validation/expiry/destruction — all run against a real
 Postgres, truncating tables between tests for isolation.
 
-## Notes on dependencies
 
-`go.mod` includes a few `replace` directives pointing some transitive
-`golang.org/x/*` and `gopkg.in/*` dependencies at their canonical GitHub
-mirrors. This was needed to build in a sandboxed dev environment with
-restricted network egress (only `github.com` was reachable, not
-`proxy.golang.org`); it has no effect on functionality — the mirrors track
-the originals exactly — but feel free to drop the `replace` lines and re-run
-`go mod tidy` in an environment with normal internet access if you'd rather
-depend on the canonical import paths.
