@@ -9,7 +9,7 @@ type-safe query code.
 ## Stack
 
 - **Language:** Go 1.22
-- **Database:** PostgreSQL, accessed via `jackc/pgx/v5` (pure-Go driver, no cgo)
+- **Database:** PostgreSQL, accessed via `jackc/pgx/v5` 
 - **Query layer:** [sqlc](https://sqlc.dev) — hand-written SQL in `db/queries/`
   and `db/schema/`, compiled into type-safe Go in `internal/dbgen/`
 - **Password hashing:** bcrypt (`golang.org/x/crypto/bcrypt`)
@@ -44,7 +44,7 @@ If you change `db/schema/*.sql` or `db/queries/*.sql`, regenerate
 sqlc generate
 ```
 
-## Running with Docker (recommended)
+## Running with Docker
 
 `docker compose up` streams logs but does **not** forward your terminal's
 input to the container — for an interactive program like this one you want
@@ -92,7 +92,7 @@ On start you'll see a `login>` prompt.
 | `help`     | List available commands                   |
 | `exit`     | Quit                                       |
 
-**After logging in** (prompt becomes `<username>>`):
+**After logging in** 
 
 | Command       | Description                                   |
 |---------------|------------------------------------------------|
